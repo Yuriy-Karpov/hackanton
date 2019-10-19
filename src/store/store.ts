@@ -4,7 +4,7 @@
 import * as types from './types';
 
 interface dataType  {
-    context: string,
+    context: object,
     users: string,
     peer: any
 }
@@ -14,7 +14,7 @@ interface Interface {
 }
 
 let data:dataType = {
-    context: '',
+    context: {},
     users: '',
     peer: {}
 };
@@ -35,7 +35,10 @@ function updateState({actionType, payload}: Interface) {
         case types.MESSAGE_CONTEXT: {
             data = {
                 ...data,
-                context: payload,
+                context: {
+                    ...data.context,
+                    [payload.senderUserId]: payload.context,
+                },
             };
             break;
         }
@@ -58,7 +61,7 @@ function updateState({actionType, payload}: Interface) {
 
 function clearState() {
     data = {
-        context: '',
+        context: {},
         users: '',
         peer: {}
     };
