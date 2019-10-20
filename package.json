@@ -18,7 +18,8 @@
     "dotenv": "8.1.0",
     "jenkins": "^0.27.0",
     "node-jenkins": "^1.2.5",
-    "rxjs": "6.5.3"
+    "rxjs": "6.5.3",
+    "ssh2-promise": "^0.1.5"
   },
   "devDependencies": {
     "@types/dotenv": "^6.1.1",
