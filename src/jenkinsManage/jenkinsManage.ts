@@ -14,5 +14,50 @@ export const jenkinsInfo = () => {
             resolve(data);
         });
     });
+};
 
+export const jenkinsBuild = (name:string) => {
+    return new Promise((resolve, reject) => {
+        jenkins.job.build({name, parameters: {data: 'Hello World'}}, (err: any, data: any) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(data);
+        });
+    });
+};
+
+export const jenkinsGet = (name:string, n: number) => {
+    return new Promise((resolve, reject) => {
+        jenkins.build.log(name, n, (err: any, data: any) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(data);
+        });
+    })
+};
+
+
+
+export const jenkinsStream = async ({name, n, bot, peer}: any) => {
+    return new Promise((resolve, reject) => {
+        const log = jenkins.build.logStream(name, n);
+
+        log.on('data', (text: any) => {
+             bot.sendText(
+                peer,
+                text
+            );
+        });
+
+        log.on('error', function(err: any) {
+            reject(err);
+        });
+
+        log.on('end', function() {
+            console.log('++END!!!!!!!!!!!!!!')
+            resolve('end')
+        });
+    });
 };

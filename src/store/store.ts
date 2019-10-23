@@ -3,8 +3,9 @@
  * */
 import * as types from './types';
 
+
 interface dataType  {
-    context: object,
+    context: { [key: number]: string },
     users: string,
     peer: any
 }
