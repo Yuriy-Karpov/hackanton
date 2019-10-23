@@ -40,6 +40,7 @@ export function graphTree({bot, peer}: InterfaceBot) {
             },
             id_2: {
                 message: buildWithProp(messageJenkinsInfo, {bot, peer})
+                // message: buildWithProp(mesGetJob, {bot, peer})
             },
         },
     }

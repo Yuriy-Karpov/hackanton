@@ -7,7 +7,8 @@ import * as types from './types';
 interface dataType  {
     context: { [key: number]: string },
     users: string,
-    peer: any
+    peer: any,
+    job: any
 }
 interface Interface {
     actionType: string,
@@ -17,7 +18,8 @@ interface Interface {
 let data:dataType = {
     context: {},
     users: '',
-    peer: {}
+    peer: {},
+    job: {}
 };
 
 function getState():dataType {
@@ -54,6 +56,17 @@ function updateState({actionType, payload}: Interface) {
             };
             break;
         }
+        case types.JOB_NUM: {
+            data = {
+                ...data,
+                job: {
+                    ...data.job,
+                    [payload.senderUserId]: payload.job,
+                }
+
+            };
+            break;
+        }
         default: {
             break;
         }
@@ -64,7 +77,8 @@ function clearState() {
     data = {
         context: {},
         users: '',
-        peer: {}
+        peer: {},
+        job: {},
     };
 }
 

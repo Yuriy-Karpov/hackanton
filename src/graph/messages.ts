@@ -1,9 +1,9 @@
 import Bot, {Action, ActionGroup, Button} from "@dlghq/dialog-bot-sdk/lib";
 import Peer from "@dlghq/dialog-bot-sdk/src/entities/Peer";
-import {getAnswer} from "../utils";
+import {getAnswer, sleep} from "../utils";
 import {jenkinsBuild, jenkinsGet, jenkinsInfo, jenkinsStream} from "../jenkinsManage/jenkinsManage";
-import {updateState} from "../store/store";
-import {MESSAGE_CONTEXT} from "../store/types";
+import {getState, updateState} from "../store/store";
+import {JOB_NUM, MESSAGE_CONTEXT} from "../store/types";
 
 interface InterfaceBot {
     bot: Bot,
@@ -33,11 +33,11 @@ export const messageOne = async ({bot, peer}: InterfaceBot) => {
     await bot.sendText(peer, '', null, ActionGroup.create({
         actions: [
             Action.create({
-                id: 'id_1_1',
+                id: 'id_1.id_1_1',
                 widget: Button.create({label: 'jenkins build'})
             }),
             Action.create({
-                id: 'id_1_2',
+                id: 'id_1.id_1_2',
                 widget: Button.create({label: 'jenkins Get'})
             }),
         ]
@@ -62,14 +62,22 @@ export const mesJenkinsBuild = async ({bot, peer}: InterfaceBot) => {
         `${getAnswer()}`
     );
     const resultJob = await jenkinsBuild('TestPipe');
+    console.log('##resultJob:', resultJob);
+    const normalizeNumber = Number(resultJob) / 2;
     await bot.sendText(
         peer,
-        `Запущена job: ${resultJob}`
+        `Запущена job, номер билда: ${normalizeNumber}`
     );
+    const payload = {
+        senderUserId: peer.id,
+        job: normalizeNumber,
+    };
+    updateState({actionType: JOB_NUM, payload});
+
     await bot.sendText(peer, '', null, ActionGroup.create({
         actions: [
             Action.create({
-                id: 'id_stream',
+                id: 'id_1.id_1_1.id_stream',
                 widget: Button.create({label: 'Слушать логи Pipline'})
             })
         ]
@@ -77,7 +85,23 @@ export const mesJenkinsBuild = async ({bot, peer}: InterfaceBot) => {
 };
 
 export const mesJenkinsStream = async ({bot, peer}: InterfaceBot) => {
-    await jenkinsStream({name: 'TestPipe', n: 21, bot, peer});
+    await bot.sendText(
+        peer,
+        `${getAnswer()}`
+    );
+    const state = getState();
+    const job = state.job[peer.id];
+    if (!job) {
+        await bot.sendText(
+            peer,
+            `Что-то пошло не так, job number: ${job}`
+        );
+        return null;
+    }
+    await sleep();
+    console.log('++job', job);
+    await jenkinsStream({name: 'TestPipe', n: job, bot, peer});
+
     await bot.sendText(
         peer,
         `Jenkins Pipline закончился`
@@ -90,7 +114,7 @@ export const mesGetJob = async ({bot, peer}: InterfaceBot) => {
         peer,
         `${getAnswer()}`
     );
-    const result = await jenkinsGet('TestPipe', 21);
+    const result = await jenkinsGet('TestPipe');
     console.log('++resutl:', result)
     await bot.sendText(
         peer,
