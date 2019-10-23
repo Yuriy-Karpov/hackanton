@@ -11,6 +11,9 @@ import {getState, updateState} from "../store/store";
 import {PREV_PEER} from "../store/types";
 import {demoScopeBot} from "./demoScopeBot";
 import {unionJenkins} from "./unionJenkins";
+import {graphTree} from "../graph/graph";
+import {goGraph} from "../utils/graphUtils";
+import {getAnswer} from "../utils/awaitText";
 
 export interface InterfaceProcessing {
     message: Message,
@@ -41,10 +44,12 @@ export const messageProcessing = async ({message, bot}: InterfaceProcessing) => 
             return null; // прекращаем это всё
         }
 
-        if (!contextMess) {
-            await unionJenkins({message, bot});
-        }
-
+        await bot.sendText(
+            message.peer,
+            'Если нужна помощь пишите /help или /помощь или используй подсказки бота'
+        );
+        const graf = graphTree({bot, peer: message.peer});
+        await graf.message();
         if (contextMess === 'unit_jenkins') {
             // код для обработки собщений в контексте jenkins
         }
