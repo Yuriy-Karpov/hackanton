@@ -15,7 +15,7 @@ export const unionJenkins = async ({message, bot}: InterfaceProcessing) => {
         '',
         null,
         ActionGroup.create({
-            actions: [
+                actions: [
                 Action.create({
                     id: 'unit_jenkins',
                     widget: Button.create({label: 'работа с jenkins'}),
