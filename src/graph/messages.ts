@@ -21,6 +21,10 @@ export const rootMessage = async ({bot, peer}: InterfaceBot) => {
                 id: 'id_2',
                 widget: Button.create({label: 'jenkins info'})
             }),
+            Action.create({
+                id: 'id_1.id_1_1.id_stream',
+                widget: Button.create({label: 'logStream'})
+            }),
         ]
     }))
 };
@@ -99,13 +103,15 @@ export const mesJenkinsStream = async ({bot, peer}: InterfaceBot) => {
         return null;
     }
     await sleep();
-    console.log('++job', job);
-    await jenkinsStream({name: 'TestPipe', n: job, bot, peer});
+    try {
+        await jenkinsStream({name: 'TestPipe', n: job, bot, peer});
+    } catch (e) {
+        await bot.sendText(
+            peer,
+            `Возможно build ещё не вставл в очередь, попробуйте ещё раз чуть позже`
+        )
+    }
 
-    await bot.sendText(
-        peer,
-        `Jenkins Pipline закончился`
-    )
 };
 
 export const mesGetJob = async ({bot, peer}: InterfaceBot) => {
