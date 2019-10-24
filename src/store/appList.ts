@@ -5,15 +5,15 @@ export const ISERVE = 'ISERVE';
 
 export const appList = {
     [AIST]: {
-        jobBuild: 'TestPipe',
+        jobBuild: 'simple_back_push_hook',
         servers: ['78.47.57.207', '78.47.57.207']
     },
     [COMPASS]: {
-        jobBuild: 'TestPipe',
+        jobBuild: 'simple_front_push_hook',
         servers: ['78.47.57.207', '78.47.57.207']
     },
     [ISERVE]: {
-        jobBuild: 'TestPipe',
+        jobBuild: 'images',
         servers: ['78.47.57.207', '78.47.57.207']
     }
 };
