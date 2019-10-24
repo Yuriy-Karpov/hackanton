@@ -4,8 +4,8 @@ import {Run} from './bot/bot';
 dotenv.config();
 
 const token:string = process.env.BOT_TOKEN || '';
-if (token) {
-  throw new Error('BOT_TOKEN env variable not configured');
+if (!token) {
+  throw new Error('Add .env file');
 }
 
 const endpoint =
