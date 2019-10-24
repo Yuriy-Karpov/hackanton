@@ -1,39 +1,29 @@
 import {getAnswer} from "../utils";
-import {Action, ActionGroup, Button} from "@dlghq/dialog-bot-sdk/lib";
-import {getState} from "../store/store";
 import {InterfaceBot} from "../model/interface";
+import {Action, ActionGroup, Button} from "@dlghq/dialog-bot-sdk/lib";
 import {buildWithProp} from "../utils/BuildWithPropUtil";
 
 const HOST = 'host';
 const USER_NAME = 'username';
 const PASS = 'password';
 
-const sshMenu = async ({bot, peer}: InterfaceBot, param: string) => {
+const ServerListMenu = async ({bot, peer}: InterfaceBot) => {
+    /*  await bot.sendText(
+          peer,
+          `Какой именно сервер интересует?`
+      );*/
 
-    const state = getState();
-    const appProps = state.appList[param];
-
-    if (!appProps) {
-        await bot.sendText(
-            peer,
-            `Каких-то опций не хватает, обратитесь к Администратору`
-        );
-        return null;
-    }
-
-    const actions = appProps.servers.map((name: string) => {
-        return Action.create({
-            id: `app_menu#${name}`,
-            widget: Button.create({label: name})
-        });
-    });
-
-    await bot.sendText(peer, 'Какой именно сервер интересует?', null, ActionGroup.create({
-        actions: actions
-    }));
-
+    await bot.sendText(peer, 'Выбери сервер', null, ActionGroup.create({
+        actions: makeButtonsToChooseServer(['server_1', 'server_2', 'server_3'])
+    }))
 };
 
+const makeButtonsToChooseServer = (serverNames: string[]) =>
+    serverNames.map(serverName =>
+        Action.create({
+            id: serverName,
+            widget: Button.create({label: serverName})
+        }));
 
 
 const info_shh_sina32 = async ({bot, peer}: InterfaceBot) => {
@@ -55,8 +45,8 @@ const info_shh_sina32 = async ({bot, peer}: InterfaceBot) => {
     // );
 };
 
-export const sshMenuAndHandler = (interfaceBot: InterfaceBot) => ({
-    message: buildWithProp(sshMenu, interfaceBot),
+export const ServerListMenuAndHandler = (interfaceBot: InterfaceBot) => ({
+    message: buildWithProp(ServerListMenu, interfaceBot),
     children: {
         info_shh_sina32: {
             message: buildWithProp(info_shh_sina32, interfaceBot)
