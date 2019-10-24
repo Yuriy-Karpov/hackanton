@@ -2,24 +2,18 @@
  * Вольная реализация хранилища. Чтобы redis не поднимать )))
  * */
 import * as types from './types';
+import {role} from "./role";
+import {appList, serverList} from "./appList";
+import {dataType, Interface} from "./interface";
 
-
-interface dataType  {
-    context: { [key: number]: string },
-    users: string,
-    peer: any,
-    job: any
-}
-interface Interface {
-    actionType: string,
-    payload: any
-}
 
 let data:dataType = {
     context: {},
-    users: '',
+    users: role,
     peer: {},
-    job: {}
+    job: {},
+    appList,
+    serverList,
 };
 
 function getState():dataType {
@@ -28,13 +22,6 @@ function getState():dataType {
 
 function updateState({actionType, payload}: Interface) {
     switch (actionType) {
-        case types.USER_CONNECT: {
-            data = {
-                ...data,
-                users: payload,
-            };
-            break;
-        }
         case types.MESSAGE_CONTEXT: {
             data = {
                 ...data,
@@ -76,9 +63,11 @@ function updateState({actionType, payload}: Interface) {
 function clearState() {
     data = {
         context: {},
-        users: '',
+        users: {},
         peer: {},
         job: {},
+        appList: {},
+        serverList: {}
     };
 }
 

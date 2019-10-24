@@ -1,33 +1,9 @@
-import Bot, {Action, ActionGroup, Button} from "@dlghq/dialog-bot-sdk/lib";
-import Peer from "@dlghq/dialog-bot-sdk/src/entities/Peer";
+import {Action, ActionGroup, Button} from "@dlghq/dialog-bot-sdk/lib";
 import {getAnswer, sleep} from "../utils";
 import {jenkinsBuild, jenkinsGet, jenkinsInfo, jenkinsStream} from "../jenkinsManage/jenkinsManage";
 import {getState, updateState} from "../store/store";
-import {JOB_NUM, MESSAGE_CONTEXT} from "../store/types";
-
-interface InterfaceBot {
-    bot: Bot,
-    peer: Peer
-}
-
-export const rootMessage = async ({bot, peer}: InterfaceBot) => {
-    await bot.sendText(peer, '', null, ActionGroup.create({
-        actions: [
-            Action.create({
-                id: 'id_1',
-                widget: Button.create({label: 'jenkins далее'})
-            }),
-            Action.create({
-                id: 'id_2',
-                widget: Button.create({label: 'jenkins info'})
-            }),
-            Action.create({
-                id: 'id_1.id_1_1.id_stream',
-                widget: Button.create({label: 'logStream'})
-            }),
-        ]
-    }))
-};
+import {JOB_NUM} from "../store/types";
+import {InterfaceBot} from "../model/interface";
 
 export const messageOne = async ({bot, peer}: InterfaceBot) => {
     await bot.sendText(
@@ -102,7 +78,17 @@ export const mesJenkinsStream = async ({bot, peer}: InterfaceBot) => {
         );
         return null;
     }
-    await sleep();
+    await sleep(5000);
+    await bot.sendText(
+        peer,
+        `Ещё чучуть`
+    );
+    await sleep(6000);
+    await bot.sendText(
+        peer,
+        `Ну вот я вернулся, 3 секунды и всё будет`
+    );
+    await sleep(3000);
     try {
         await jenkinsStream({name: 'TestPipe', n: job, bot, peer});
     } catch (e) {
@@ -130,9 +116,7 @@ export const mesGetJob = async ({bot, peer}: InterfaceBot) => {
         peer,
         `конец собщения`
     );
-    // const payload = {
-    //     senderUserId: event.uid,
-    //     context: newContext
-    // };
-    // updateState({actionType: MESSAGE_CONTEXT, payload});
 };
+
+
+
