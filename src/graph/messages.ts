@@ -20,6 +20,10 @@ export const rootMessage = async ({bot, peer}: InterfaceBot) => {
                 id: 'id_2',
                 widget: Button.create({label: 'jenkins info'})
             }),
+            Action.create({
+                id: 'jenkinsMenu',
+                widget: Button.create({label: 'Установка сборки'})
+            }),
         ]
     }))
 };
