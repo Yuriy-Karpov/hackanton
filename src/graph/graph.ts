@@ -8,7 +8,7 @@ import {
     messageOne,
     rootMessage
 } from "./messages";
-import {sshMenuAndHandler} from './sshMessages'
+import {ServerListMenuAndHandler} from '../ssh/ServerListBotMenu'
 import {buildWithProp} from "./util";
 import {InterfaceBot} from "./interface";
 
@@ -37,7 +37,7 @@ export function graphTree({bot, peer}: InterfaceBot) {
                 message: buildWithProp(messageJenkinsInfo, {bot, peer})
                 // message: buildWithProp(mesGetJob, {bot, peer})
             },
-            shhMenu: sshMenuAndHandler({bot,peer})
+            shhMenu: ServerListMenuAndHandler({bot,peer})
         },
     }
 }

@@ -1,7 +1,28 @@
 import SSH = require("ssh2-promise");
 
 
-export class SshConnenction {
+export const getServerInfo = () => {
+
+    //FIXME find new info!!!
+    const host = '';
+    const username = '';
+    const password = '';
+
+    const sshConnection = new SshConnection(host, username, password);
+
+    const uptimePromise: Promise<String> = sshConnection.getUptime();
+    const uptimePromise: Promise<String> = sshConnection.getUptime();
+    const uptimePromise: Promise<String> = sshConnection.getUptime();
+
+    Promise.all<String,void>([
+        ,
+
+    ]);
+
+
+};
+
+class SshConnection {
     private ssh: SSH;
 
     constructor(host: string, username: string, password: string) {
@@ -9,25 +30,25 @@ export class SshConnenction {
         this.ssh = new SSH(sshConfig);
     }
 
-    async getUptime() {
-        return await this.ssh.exec("uptime")
+    getUptime(): Promise<String> {
+        return this.ssh.exec("uptime")
     };
 
-    async getProcessesList() {
-        return await this.ssh.exec("ps -aux")
+    getProcessesList(): Promise<String> {
+        return this.ssh.exec("ps -aux")
     };
 
-    async getRamUsage() {
-        return await this.ssh.exec("free -h")
+    getRamUsage(): Promise<String> {
+        return this.ssh.exec("free -h")
     };
 
-    async getProcessorUsage() {
-        return await this.ssh.exec("top -bn2 | grep \"Cpu(s)\" | \\\n" +
+    getProcessorUsage(): Promise<String> {
+        return this.ssh.exec("top -bn2 | grep \"Cpu(s)\" | \\\n" +
             "           sed \"s/.*, *\\([0-9.]*\\)%* id.*/\\1/\" | \\\n" +
             "           awk '{print 100 - $1\"%\"}'")
     };
 
-    async getHardDriveStat() {
-        return await this.ssh.exec("df -h")
+    getHardDriveStat(): Promise<String> {
+        return this.ssh.exec("df -h")
     };
 }
