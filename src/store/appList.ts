@@ -6,14 +6,14 @@ export const ISERVE = 'ISERVE';
 export const appList = {
     [AIST]: {
         jobBuild: 'TestPipe',
-        servers: ['1.1.1.1', '0.0.0.0']
+        servers: ['78.47.57.207', '78.47.57.207']
     },
     [COMPASS]: {
         jobBuild: 'TestPipe',
-        servers: ['1.1.1.1', '0.0.0.0']
+        servers: ['78.47.57.207', '78.47.57.207']
     },
     [ISERVE]: {
         jobBuild: 'TestPipe',
-        servers: ['1.1.1.1', '0.0.0.0']
+        servers: ['78.47.57.207', '78.47.57.207']
     }
 };
