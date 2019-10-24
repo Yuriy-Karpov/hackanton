@@ -21,6 +21,9 @@ export const jenkinsInfo = () => {
 export const jenkinsBuild = (name: string, param?:string) => {
     return jenkins.job.build({name, parameters: {data: param || 'Demo'}});
 };
+export const jenkinsBuildNoParams = (name: string) => {
+    return jenkins.job.build({name});
+};
 
 export const jenkinsGet = (name: string) => {
 

@@ -8,8 +8,8 @@ import {JOB_NUM} from "../store/types";
 
 const jenkinsMenu = async ({bot, peer}: InterfaceBot, param: string) => {
 
-    const state = getState();
-    const app = state.appList[param];
+        const state = getState();
+        const app = state.appList[param];
 
 
     await bot.sendText(peer, '', null, ActionGroup.create({
@@ -34,8 +34,6 @@ const jenkinsJobsStatus = async ({bot, peer}: InterfaceBot) => {
     );
     const info = await jenkinsInfo();
 
-    console.log('++info:', JSON.stringify(info, null, 4));
-    console.log('++++++++++++++++++++++++++');
 
     const actions = info.jobs.map((job: any) => {
         return Action.create({
@@ -64,7 +62,6 @@ const build_job_id = async ({bot, peer}: InterfaceBot, jobName: string) => {
         peer,
         `${getAnswer()}`
     );
-    console.log('++param', jobName);
     const resultJob = await jenkinsBuild(jobName);
     const normalizeNumber = Number(resultJob);
     await bot.sendText(

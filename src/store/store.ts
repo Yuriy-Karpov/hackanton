@@ -3,7 +3,7 @@
  * */
 import * as types from './types';
 import {role} from "./role";
-import {appList} from "./appList";
+import {appList, serverList} from "./appList";
 import {dataType, Interface} from "./interface";
 
 
@@ -12,7 +12,8 @@ let data:dataType = {
     users: role,
     peer: {},
     job: {},
-    appList
+    appList,
+    serverList,
 };
 
 function getState():dataType {
@@ -65,7 +66,8 @@ function clearState() {
         users: {},
         peer: {},
         job: {},
-        appList: {}
+        appList: {},
+        serverList: {}
     };
 }
 
