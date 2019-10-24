@@ -1,5 +1,5 @@
 import {getState, updateState} from "../store/store";
-import {MESSAGE_CONTEXT, PREV_PEER, USER_CONNECT} from "../store/types";
+import {MESSAGE_CONTEXT, PREV_PEER} from "../store/types";
 import Bot, {Action, ActionEvent, ActionGroup, Button} from "@dlghq/dialog-bot-sdk/lib";
 import {jenkinsBuild, jenkinsGet, jenkinsInfo, jenkinsStream} from "../jenkinsManage/jenkinsManage";
 import {graphTree} from "../graph/graph";
@@ -14,8 +14,6 @@ export const handleProcessing = async ({event, bot}: Interface) => {
     const state = getState();
     const peer = state.peer[event.uid];
     try {
-
-        updateState({actionType: USER_CONNECT, payload: event.uid});
 
         const context = state.context[event.uid];
         if (!peer) {
@@ -43,11 +41,22 @@ export const handleProcessing = async ({event, bot}: Interface) => {
          */
 
 
-        const newContext = event.id;
+        /**
+         * тк от нажатия кнопки мы получаем тольк id кнопки - передача параметра реализуем после символа #
+         */
+        const newContext = event.id.split('#');
 
-        const pointForMessage = goGraph(graf, newContext);
+        console.log('++newContext[0]', newContext[0])
+        const pointForMessage = goGraph(graf, newContext[0]);
 
-        await pointForMessage.message();
+        console.log('++pointForMessage', pointForMessage);
+        if (newContext[1]) {
+            console.log('++newContext[1]', newContext[1])
+            await pointForMessage.message(newContext[1]);
+        } else {
+            await pointForMessage.message();
+        }
+
 
         const payload = {
             senderUserId: event.uid,

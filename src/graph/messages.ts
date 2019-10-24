@@ -5,29 +5,6 @@ import {getState, updateState} from "../store/store";
 import {JOB_NUM} from "../store/types";
 import {InterfaceBot} from "./interface";
 
-export const rootMessage = async ({bot, peer}: InterfaceBot) => {
-    await bot.sendText(peer, '', null, ActionGroup.create({
-        actions: [
-            Action.create({
-                id: 'shhMenu',
-                widget: Button.create({label: 'Посмотреть статус по серверам'})
-            }),
-            Action.create({
-                id: 'id_1',
-                widget: Button.create({label: 'jenkins далее'})
-            }),
-            Action.create({
-                id: 'id_2',
-                widget: Button.create({label: 'jenkins info'})
-            }),
-            Action.create({
-                id: 'jenkinsMenu',
-                widget: Button.create({label: 'Установка сборки'})
-            }),
-        ]
-    }))
-};
-
 export const messageOne = async ({bot, peer}: InterfaceBot) => {
     await bot.sendText(
         peer,
@@ -139,11 +116,7 @@ export const mesGetJob = async ({bot, peer}: InterfaceBot) => {
         peer,
         `конец собщения`
     );
-    // const payload = {
-    //     senderUserId: event.uid,
-    //     context: newContext
-    // };
-    // updateState({actionType: MESSAGE_CONTEXT, payload});
 };
+
 
 

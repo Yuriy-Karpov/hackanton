@@ -18,8 +18,8 @@ export const jenkinsInfo = () => {
     return jenkins.info();
 };
 
-export const jenkinsBuild = (name: string) => {
-    return jenkins.job.build({name, parameters: {data: 'Hello World'}});
+export const jenkinsBuild = (name: string, param?:string) => {
+    return jenkins.job.build({name, parameters: {data: param || 'Demo'}});
 };
 
 export const jenkinsGet = (name: string) => {
