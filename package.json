@@ -5,20 +5,27 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./dist/index.js",
+    "start": "npm run build && npm run bot",
+    "bot": "node ./dist/index.js",
     "dev": "tsc --watch",
     "build": "tsc"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@dlghq/dialog-bot-sdk": "^5.1.0",
+    "@dlghq/dialog-api": "file:lib/dialog-api.tar.gz",
+    "@dlghq/dialog-bot-sdk": "file:lib/dialog-bot-sdk.tar.gz",
     "axios": "0.19.0",
     "dotenv": "8.1.0",
-    "rxjs": "6.5.3"
+    "jenkins": "^0.27.0",
+    "node-jenkins": "^1.2.5",
+    "rxjs": "6.5.3",
+    "ssh2-promise": "^0.1.5"
   },
   "devDependencies": {
+    "@types/jenkins": "^0.23.1",
     "@types/dotenv": "^6.1.1",
+    "@types/ssh2-streams": "^0.1.6",
     "ts-node": "8.4.1",
     "typedoc": "0.15.0",
     "typescript": "3.6.4"
