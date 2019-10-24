@@ -20,5 +20,6 @@ https://github.com/silas/node-jenkins
 ```$xslt
 скомпилировать обычныйм способом (npm run build),
 либо с вотчером (npm run dev)
-запустить сервер бота (npm run start)
+запустить сервер бота (npm run bot)
+или одной командой npm run start
 ```
