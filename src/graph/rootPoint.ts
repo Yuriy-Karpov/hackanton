@@ -33,7 +33,7 @@ export const appMenuHandler = async ({bot, peer}: InterfaceBot, param: string) =
             }),
             Action.create({
                 id: `app_menu.shhMenu#${param}`,
-                widget: Button.create({label: 'Информация о сервере'})
+                widget: Button.create({label: 'Информация о серверверах'})
             }),
         ]
     }))

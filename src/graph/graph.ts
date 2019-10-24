@@ -1,4 +1,4 @@
-import {sshMenuAndHandler} from './sshMessages'
+import {sshMenuServer} from './sshMessages'
 import {jenkinsBuildConnect} from "./jenkinsMsg";
 import {appMenuHandler, rootMessage} from "./rootPoint";
 import {InterfaceBot} from "../model/interface";
@@ -13,7 +13,7 @@ export function graphTree({bot, peer}: InterfaceBot) {
                 message: buildWithProp(appMenuHandler, {bot, peer}),
                 children: {
                     jenkinsMenu: jenkinsBuildConnect({bot, peer}),
-                    shhMenu: sshMenuAndHandler({bot, peer})
+                    shhMenu: sshMenuServer({bot, peer})
                 }
             }
         },

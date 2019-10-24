@@ -74,14 +74,6 @@ const build_job_id = async ({bot, peer}: InterfaceBot, param: string) => {
 
 };
 
-const build_1 = async ({bot, peer}: InterfaceBot, param: string) => {
-
-    await bot.sendText(
-        peer,
-        `Lol`
-    );
-};
-
 
 /**
  * Узел Графа для Jenkins
@@ -93,11 +85,5 @@ export const jenkinsBuildConnect = (interfaceBot: InterfaceBot) => ({
         build_job_id: {
             message: buildWithProp(build_job_id, interfaceBot)
         },
-        build_2: {
-            message: buildWithProp(build_1, interfaceBot)
-        },
-        build_3: {
-            message: buildWithProp(build_1, interfaceBot)
-        }
     }
 });

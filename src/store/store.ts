@@ -4,28 +4,8 @@
 import * as types from './types';
 import {role} from "./role";
 import {appList} from "./appList";
+import {dataType, Interface} from "./interface";
 
-
-interface dataType  {
-    context: { [key: number]: string },
-    users: { [key: number]: UserItem },
-    peer: any,
-    job: any,
-    appList: {[key: string]: AppItem }
-}
-export interface AppItem {
-    jobBuild: string,
-    servers: Array<string>
-}
-export interface UserItem {
-    name: string,
-    admin: boolean,
-    apps: Array<string>
-}
-interface Interface {
-    actionType: string,
-    payload: any
-}
 
 let data:dataType = {
     context: {},
