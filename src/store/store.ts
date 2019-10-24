@@ -2,13 +2,25 @@
  * Вольная реализация хранилища. Чтобы redis не поднимать )))
  * */
 import * as types from './types';
+import {role} from "./role";
+import {appList} from "./appList";
 
 
 interface dataType  {
     context: { [key: number]: string },
-    users: string,
+    users: { [key: number]: UserItem },
     peer: any,
-    job: any
+    job: any,
+    appList: {[key: string]: AppItem }
+}
+export interface AppItem {
+    jobBuild: string,
+    servers: Array<string>
+}
+export interface UserItem {
+    name: string,
+    admin: boolean,
+    apps: Array<string>
 }
 interface Interface {
     actionType: string,
@@ -17,9 +29,10 @@ interface Interface {
 
 let data:dataType = {
     context: {},
-    users: '',
+    users: role,
     peer: {},
-    job: {}
+    job: {},
+    appList
 };
 
 function getState():dataType {
@@ -28,13 +41,6 @@ function getState():dataType {
 
 function updateState({actionType, payload}: Interface) {
     switch (actionType) {
-        case types.USER_CONNECT: {
-            data = {
-                ...data,
-                users: payload,
-            };
-            break;
-        }
         case types.MESSAGE_CONTEXT: {
             data = {
                 ...data,
@@ -76,9 +82,10 @@ function updateState({actionType, payload}: Interface) {
 function clearState() {
     data = {
         context: {},
-        users: '',
+        users: {},
         peer: {},
         job: {},
+        appList: {}
     };
 }
 
