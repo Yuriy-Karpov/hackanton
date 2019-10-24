@@ -1,8 +1,8 @@
 import {getAnswer} from "../utils";
-import {InterfaceBot} from "./interface";
 import {Action, ActionGroup, Button} from "@dlghq/dialog-bot-sdk/lib";
-import {buildWithProp} from "./util";
 import {getState} from "../store/store";
+import {InterfaceBot} from "../model/interface";
+import {buildWithProp} from "../utils/BuildWithPropUtil";
 
 const HOST = 'host';
 const USER_NAME = 'username';

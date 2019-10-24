@@ -3,7 +3,7 @@ import {getAnswer, sleep} from "../utils";
 import {jenkinsBuild, jenkinsGet, jenkinsInfo, jenkinsStream} from "../jenkinsManage/jenkinsManage";
 import {getState, updateState} from "../store/store";
 import {JOB_NUM} from "../store/types";
-import {InterfaceBot} from "./interface";
+import {InterfaceBot} from "../model/interface";
 
 export const messageOne = async ({bot, peer}: InterfaceBot) => {
     await bot.sendText(

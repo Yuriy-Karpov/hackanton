@@ -1,65 +1,47 @@
-import {getAnswer} from "../utils";
-import {InterfaceBot} from "../graph/interface";
-import {Action, ActionGroup, Button} from "@dlghq/dialog-bot-sdk/lib";
-import {buildWithProp} from "../graph/util";
+import {InterfaceBot} from "../model/interface";
+import {ServerData} from "../model/class";
+import {clearTmp, getServerInfo, serverRestart} from "./SshService";
+import {createActionGroup} from "./ActionCreatorUtil";
 
-const HOST = 'host';
-const USER_NAME = 'username';
-const PASS = 'password';
+const serverRestartCommand = 'serverRestartCommand';
+const clearTempCommand = 'clearTempCommand';
 
-const sshMenu = async (serverName:string, {bot, peer}: InterfaceBot) => {
+const buttonMenu = async (serverName: string, {bot, peer}: InterfaceBot) => {
 
-
-      await bot.sendText(
-          peer,
-          `Какой именно сервер интересует?`
-      );
-
-    await bot.sendText(peer, '', null, ActionGroup.create({
-        actions: makeButtonsToChooseServer(['server_1', 'server_2', 'server_3'])
-    }))
+    const serverData: ServerData = await getServerInfo(serverName);
+    const message = `Данные по ${serverName}: \nUPTIME: ${serverData.uptime}\nCPU: ${serverData.cpu}\nRAM: ${serverData.ram}\nHDD: ${serverData.hdd}`;
+    await bot.sendText(peer, message, null, createActionGroup([serverRestartCommand, clearTempCommand]))
 };
 
-const makeButtonsToChooseServer = (serverNames: string[]) =>
-    serverNames.map(serverName =>
-        Action.create({
-            id: serverName,
-            widget: Button.create({label: serverName})
-        }));
+const makeCommand = async (commandName: string, serverName: string, {bot, peer}: InterfaceBot) => {
 
-
-const makeServerMenu = async
-
-const info_shh_sina32 = async ({bot, peer}: InterfaceBot) => {
-
-    await bot.sendText(
-        peer,
-        `${getAnswer()}`
-    );
-    await bot.sendText(
-        peer,
-        `тут я хожу за инфой для сервера`
-    );
-    // const shh = new SshConnenction(HOST, USER_NAME, PASS);
-    //
-    // const uptime = await shh.getUptime();
-    // await bot.sendText(
-    //     peer,
-    //     String(uptime)
-    // );
+    await bot.sendText(peer, 'started');
+    if (commandName === serverRestartCommand) {
+        await serverRestart(serverName);
+    } else {
+        await clearTmp(serverName);
+    }
+    await bot.sendText(peer, "done");
 };
 
-export const sshMenuAndHandler = (interfaceBot: InterfaceBot) => ({
-    message: buildWithProp(sshMenu, interfaceBot),
+
+const areYouSure = ({bot, peer}: InterfaceBot) =>
+    bot.sendText(peer, "Вы уверены?", null, createActionGroup(["yes", "no"]));
+
+export const sshMenuAndHandler = (serverName: string, interfaceBot: InterfaceBot) => ({
+    message: buttonMenu(serverName, interfaceBot),
     children: {
-        info_shh_sina32: {
-            message: buildWithProp(info_shh_sina32, interfaceBot)
+        serverRestartCommand: {
+            message: areYouSure(interfaceBot),
+            children: {
+                yes: {message: makeCommand(serverRestartCommand, serverName, interfaceBot)},
+            }
         },
-        info_shh_sina33: {
-            message: buildWithProp(info_shh_sina32, interfaceBot)
+        clearTempCommand: {
+            message: areYouSure(interfaceBot),
+            children: {
+                yes: {message: makeCommand(clearTempCommand, serverName, interfaceBot)},
+            }
         },
-        info_shh_sina34: {
-            message: buildWithProp(info_shh_sina32, interfaceBot)
-        }
     }
 });

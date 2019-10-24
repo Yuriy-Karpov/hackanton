@@ -1,7 +1,7 @@
 import {getAnswer} from "../utils";
-import {InterfaceBot} from "../graph/interface";
+import {InterfaceBot} from "../model/interface";
 import {Action, ActionGroup, Button} from "@dlghq/dialog-bot-sdk/lib";
-import {buildWithProp} from "../graph/util";
+import {buildWithProp} from "../utils/BuildWithPropUtil";
 
 const HOST = 'host';
 const USER_NAME = 'username';
@@ -25,8 +25,6 @@ const makeButtonsToChooseServer = (serverNames: string[]) =>
             widget: Button.create({label: serverName})
         }));
 
-
-const makeServerMenu = async
 
 const info_shh_sina32 = async ({bot, peer}: InterfaceBot) => {
 

@@ -1,11 +1,11 @@
-import {InterfaceBot} from "./interface";
-import {buildWithProp} from "./util";
+import {buildWithProp} from "../utils/BuildWithPropUtil";
 import {Action, ActionGroup, Button} from "@dlghq/dialog-bot-sdk/lib";
-import {jenkinsBuild, jenkinsInfo} from "../jenkinsManage/jenkinsManage";
+import {jenkinsInfo} from "../jenkinsManage/jenkinsManage";
 import {getState} from "../store/store";
 import {getAnswer} from "../utils";
+import {InterfaceBot} from "../model/interface";
 
-const jenkinsMenu = async ({bot, peer}: InterfaceBot, param:string) => {
+const jenkinsMenu = async ({bot, peer}: InterfaceBot, param: string) => {
     await bot.sendText(
         peer,
         `Какой именно сервер интересует?`
@@ -14,7 +14,7 @@ const jenkinsMenu = async ({bot, peer}: InterfaceBot, param:string) => {
     const state = getState();
     const userProps = state.users[peer.id];
 
-    const actions = userProps.apps.map((name:string) => {
+    const actions = userProps.apps.map((name: string) => {
         return Action.create({
             id: `jenkinsMenu.build_job_id#${name}`,
             widget: Button.create({label: name})
