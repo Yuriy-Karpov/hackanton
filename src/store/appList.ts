@@ -1,20 +1,20 @@
 
-export const AIST = 'AIST';
-export const COMPASS = 'COMPASS';
-export const ISERVE = 'ISERVE';
+export const HUXLEY = 'HUXLEY';
+export const ZAMYATIN = 'ZAMYATIN';
+export const ORWELL = 'ORWELL';
 export const ONE_SERVER = '159.69.7.170';
 export const TWO_SERVER = '78.47.57.207';
 
 export const appList = {
-    [AIST]: {
-        jobBuild: 'simple_back_push_hook',
+    [HUXLEY]: {
+        jobBuild: 'first_deploy',
         servers: [ONE_SERVER, TWO_SERVER]
     },
-    [COMPASS]: {
-        jobBuild: 'simple_front_push_hook',
+    [ZAMYATIN]: {
+        jobBuild: 'second_deploy',
         servers: [ONE_SERVER, TWO_SERVER]
     },
-    [ISERVE]: {
+    [ORWELL]: {
         jobBuild: 'images',
         servers: [ONE_SERVER, TWO_SERVER]
     }

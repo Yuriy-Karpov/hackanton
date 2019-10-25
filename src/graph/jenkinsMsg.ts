@@ -20,7 +20,7 @@ const jenkinsMenu = async ({bot, peer}: InterfaceBot, param: string) => {
             }),
             Action.create({
                 id: `app_menu.jenkinsMenu.build_job_id#${app.jobBuild}`,
-                widget: Button.create({label: 'Не собрать'})
+                widget: Button.create({label: 'Откатить к предыдущей'})
             })
         ]
     }))
@@ -84,6 +84,9 @@ const build_job_id = async ({bot, peer}: InterfaceBot, jobName: string) => {
         return null;
     }
 
+    /**
+     * иначе мы не успеваем подключиться к джобе, нужна маленькая задержка, между запуском слушателим
+     */
     await sleep(2000);
     await bot.sendText(
         peer,
