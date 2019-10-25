@@ -17,6 +17,7 @@
     "@dlghq/dialog-bot-sdk": "file:lib/dialog-bot-sdk.tar.gz",
     "axios": "0.19.0",
     "dotenv": "8.1.0",
+    "github-webhook-handler": "^1.0.0",
     "jenkins": "^0.27.0",
     "node-jenkins": "^1.2.5",
     "rxjs": "6.5.3",
