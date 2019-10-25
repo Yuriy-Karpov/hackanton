@@ -12,7 +12,7 @@ const jenkinsMenu = async ({bot, peer}: InterfaceBot, param: string) => {
         const app = state.appList[param];
 
 
-    await bot.sendText(peer, '', null, ActionGroup.create({
+    await bot.sendText(peer, 'Ci меню', null, ActionGroup.create({
         actions: [
             Action.create({
                 id: `app_menu.jenkinsMenu.build_job_id#${app.jobBuild}`,
@@ -90,7 +90,7 @@ const build_job_id = async ({bot, peer}: InterfaceBot, jobName: string) => {
     await sleep(2000);
     await bot.sendText(
         peer,
-        `Ещё чучуть`
+        `Ещё немнго`
     );
     await sleep(1000);
     try {

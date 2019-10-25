@@ -1,5 +1,7 @@
 import dotenv from 'dotenv';
 import {Run} from './bot/bot';
+import {RunHandler} from './githubWebhooksHandler/webhookHandler';
+import Http from "http";
 
 dotenv.config();
 
@@ -15,3 +17,10 @@ Run(token, endpoint).catch((error) => {
   console.error(error);
   process.exit(1);
 });
+
+Http.createServer(function (req, res) {
+  RunHandler('myhashsecret', '/webhook')(req, res, function () {
+    res.statusCode = 404;
+    res.end('no such location')
+  })
+}).listen(7777);

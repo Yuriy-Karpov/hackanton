@@ -74,6 +74,19 @@ export const messageProcessing = async ({message, bot}: InterfaceProcessing) => 
             await delMsg({bot, app, user, message});
             return null;
         }
+        if(msg === '1') {
+            await bot.sendText(
+                message.peer,
+                `Внимание! Происзошло событие на репозитории myhashsecret
+                 pull_request, `
+            );
+            await bot.sendText(
+                message.peer,
+                `Внимание! Происзошло событие merge, на репозитории myhashsecret`
+            );
+            return null
+        }
+
         await bot.sendText(
             message.peer,
             `Для вызова контекстного меню используйте команды: '?', 'меню' или 'menu', 'app'`
