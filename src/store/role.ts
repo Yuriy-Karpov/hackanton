@@ -1,28 +1,27 @@
-import {AIST, COMPASS, ISERVE} from "./appList";
+import {HUXLEY, ZAMYATIN, ORWELL} from "./appList";
 
 export const role = {
     514757200: {
         name: 'Рустам',
         admin: false,
         apps: [
-            AIST,
-            ISERVE,
+            HUXLEY,
+            ZAMYATIN,
         ]
     },
     545445077: {
         name: 'Виктор',
         admin: false,
         apps: [
-            AIST
+            HUXLEY
         ]
     },
     152863453: {
         name: 'Юрий',
-        admin: false,
+        admin: true,
         apps: [
-            AIST,
-            COMPASS,
-            ISERVE
+            HUXLEY,
+            ORWELL
         ]
     }
 };

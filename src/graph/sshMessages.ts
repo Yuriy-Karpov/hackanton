@@ -5,9 +5,7 @@ import {InterfaceBot} from "../model/interface";
 import {buildWithProp} from "../utils/BuildWithPropUtil";
 // import {buttonMenu, sshMenuAndHandler} from "../ssh/SingleServerBotMenu";
 import {ServerData} from "../model/class";
-import {getServerInfo} from "../ssh/SshService";
 import {jenkinsBuild, jenkinsBuildNoParams} from "../jenkinsManage/jenkinsManage";
-import {serverList} from "../store/appList";
 import axios from "axios";
 
 const HOST = 'host';
@@ -15,7 +13,7 @@ const USER_NAME = 'username';
 const PASS = 'password';
 
 const sshMenu = async ({bot, peer}: InterfaceBot, param: string) => {
-    await bot.sendText(peer,`${getAnswer()}`);
+    await bot.sendText(peer, `${getAnswer()}`);
     const state = getState();
 
     const app = state.appList[param];
@@ -28,16 +26,15 @@ const sshMenu = async ({bot, peer}: InterfaceBot, param: string) => {
         );
         return null;
     }
-    for(let serverName of app.servers) {
-        console.log('++######serverName', serverName)
-        // const serverData: ServerData = await getServerInfo(serverName);
+    for (let serverName of app.servers) {
         const response: ServerData = await axios.get(`http://${serverName}:9000/info`);
-        const {data:serverData}:any = response;
-        const message = `Данные по ${serverName}: \n
-        UPTIME: ${serverData.uptime}\n
-        CPU: ${serverData.proc}%\n
-        RAM: ${serverData.ram}%\n
-        HDD: ${serverData.hard}%`;
+        const {data: serverData}: any = response;
+        const date = new Date(serverData.uptime);
+        const h = date.getHours();
+        const m = date.getMinutes();
+        const s = date.getSeconds();
+        const message = `Данные по ${serverName}:
+        UPTIME: ${h}:${m}:${s}  |  CPU: ${serverData.proc}%  |  RAM: ${serverData.ram}%  |  HDD: ${serverData.hard}%`;
         await bot.sendText(peer, message);
     }
 
@@ -76,21 +73,21 @@ export const buttonMenu = async ({bot, peer}: InterfaceBot, serverName: string) 
 };
 
 export const rebutSsh = async ({bot, peer}: InterfaceBot, serverName: string) => {
-    await bot.sendText(peer,`${getAnswer()}`);
+    await bot.sendText(peer, `${getAnswer()}`);
     const state = getState();
     const serverItem = state.serverList[serverName];
-    await jenkinsBuildNoParams(serverItem.jobRestart);
+    await jenkinsBuild(serverItem.jobRestart);
     await bot.sendText(peer,
-        `Сервер ${serverName} был перезагружен`
+        `Серверу ${serverName} передана команда перезагрузки`
     );
 };
 export const clearSsh = async ({bot, peer}: InterfaceBot, serverName: string) => {
-    await bot.sendText(peer,`${getAnswer()}`);
+    await bot.sendText(peer, `${getAnswer()}`);
     const state = getState();
     const serverItem = state.serverList[serverName];
-    await jenkinsBuildNoParams(serverItem.jobRestart);
+    await jenkinsBuild(serverItem.jobRestart);
     await bot.sendText(peer,
-        `На сервере ${serverName} была очищена Tmp`
+        `Сервер ${serverName} был поставлен на очередь по очистки Tmp`
     );
 };
 

@@ -5,9 +5,10 @@ import * as types from './types';
 import {role} from "./role";
 import {appList, serverList} from "./appList";
 import {dataType, Interface} from "./interface";
+import {DEL_APP_USER} from "./types";
 
 
-let data:dataType = {
+let data: dataType = {
     context: {},
     users: role,
     peer: {},
@@ -16,7 +17,7 @@ let data:dataType = {
     serverList,
 };
 
-function getState():dataType {
+function getState(): dataType {
     return {...data};
 }
 
@@ -54,6 +55,41 @@ function updateState({actionType, payload}: Interface) {
             };
             break;
         }
+        case types.ADD_APP_USER: {
+            data = {
+                ...data,
+                users: {
+                    ...data.users,
+                    [payload.senderUserId]: {
+                        ...data.users[payload.senderUserId],
+                        apps: [
+                            ...data.users[payload.senderUserId].apps,
+                            payload.app
+                        ]
+                    },
+                }
+            };
+            break;
+        }
+        case types.DEL_APP_USER: {
+            const newApp: Array<string> = data.users[payload.senderUserId].apps.filter(item => {
+                if (item !== payload.app) {
+                    return true;
+                }
+            });
+            data = {
+                ...data,
+                users: {
+                    ...data.users,
+                    [payload.senderUserId]: {
+                        ...data.users[payload.senderUserId],
+                        apps: newApp
+                    },
+                }
+            };
+            break;
+        }
+
         default: {
             break;
         }
